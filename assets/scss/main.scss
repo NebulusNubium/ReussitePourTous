@@ -1,0 +1,16 @@
+// Import des abstractions (variables, fonctions, mixins)
+@import 'abstract/variables';
+@import 'abstract/functions';
+@import 'abstract/mixins';
+
+// Import de la base et layout
+@import 'layout/base';
+@import 'layout/header';
+@import 'layout/footer';
+
+// Import des composants réutilisables
+@import 'components/ui-components';
+@import 'components/testimonials';
+
+// Import des pages spécifiques
+@import 'pages/home';

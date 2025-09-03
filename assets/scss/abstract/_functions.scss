@@ -1,0 +1,56 @@
+// Fonctions utilitaires pour accéder aux variables
+
+// Fonction pour récupérer une couleur
+@function color($name) {
+  @return map-get($colors, $name);
+}
+
+// Fonction pour récupérer une police
+@function font($name) {
+  @return map-get($fonts, $name);
+}
+
+// Fonction pour récupérer un espacement
+@function spacing($name) {
+  @return map-get($spacing, $name);
+}
+
+// Fonction pour récupérer un breakpoint
+@function breakpoint($name) {
+  @return map-get($breakpoints, $name);
+}
+
+// Fonction pour récupérer une taille de police
+@function font-size($name) {
+  @return map-get($font-sizes, $name);
+}
+
+// Fonction pour récupérer un poids de police
+@function font-weight($name) {
+  @return map-get($font-weights, $name);
+}
+
+// Fonction pour récupérer une ombre
+@function shadow($name) {
+  @return map-get($shadows, $name);
+}
+
+// Fonction pour récupérer une transition
+@function transition($name) {
+  @return map-get($transitions, $name);
+}
+
+// Fonction pour récupérer un z-index
+@function z-index($name) {
+  @return map-get($z-index, $name);
+}
+
+// Fonction pour assombrir une couleur
+@function darken-color($color, $percentage) {
+  @return darken($color, $percentage);
+}
+
+// Fonction pour éclaircir une couleur
+@function lighten-color($color, $percentage) {
+  @return lighten($color, $percentage);
+}

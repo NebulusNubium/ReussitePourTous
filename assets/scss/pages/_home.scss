@@ -1,0 +1,332 @@
+// Styles spécifiques à la page d'accueil
+
+// Section Hero
+.hero {
+  padding: spacing(4xl) 0;
+  @include gradient(#667eea, #764ba2);
+  color: white;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+
+  // Animation de fond subtile
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+    opacity: 0.3;
+  }
+
+  &-container {
+    @include container;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: spacing(3xl);
+    align-items: center;
+    position: relative;
+    z-index: 1;
+
+    @include respond-to(tablet) {
+      grid-template-columns: 1fr;
+      text-align: center;
+      gap: spacing(2xl);
+    }
+  }
+
+  &-content {
+    .hero-title {
+      font-size: font-size(6xl);
+      font-weight: font-weight(extrabold);
+      line-height: 1.1;
+      margin-bottom: spacing(lg);
+
+      @include respond-to(tablet) {
+        font-size: font-size(5xl);
+      }
+
+      @include respond-to(mobile) {
+        font-size: font-size(4xl);
+      }
+    }
+
+    .hero-subtitle {
+      font-size: font-size(xl);
+      margin-bottom: spacing(2xl);
+      opacity: 0.95;
+      line-height: 1.6;
+
+      @include respond-to(mobile) {
+        font-size: font-size(lg);
+      }
+    }
+  }
+
+  &-actions {
+    display: flex;
+    gap: spacing(lg);
+    flex-wrap: wrap;
+
+    @include respond-to(tablet) {
+      justify-content: center;
+    }
+
+    @include respond-to(mobile) {
+      flex-direction: column;
+      align-items: center;
+
+      .btn {
+        width: 100%;
+        max-width: 300px;
+      }
+    }
+  }
+
+  &-image {
+    position: relative;
+
+    img {
+      width: 100%;
+      height: auto;
+      border-radius: $border-radius-lg;
+      box-shadow: shadow(xl);
+      @include smooth-transition(transform);
+
+      &:hover {
+        transform: scale(1.02);
+      }
+    }
+
+    // Effet de brillance sur l'image
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%);
+      border-radius: $border-radius-lg;
+      opacity: 0;
+      @include smooth-transition(opacity);
+    }
+
+    &:hover::after {
+      opacity: 1;
+    }
+  }
+}
+
+// Section Features
+.features {
+  &-grid {
+    @include grid($min-width: 250px, $gap: spacing(xl));
+    margin-top: spacing(2xl);
+  }
+}
+
+.feature-card {
+  @extend .card;
+  @extend .card--hover;
+  @extend .card--centered;
+
+  .feature-icon {
+    font-size: font-size(5xl);
+    margin-bottom: spacing(lg);
+    line-height: 1;
+  }
+
+  h3 {
+    font-size: font-size(xl);
+    font-weight: font-weight(semibold);
+    margin-bottom: spacing(md);
+    color: color(text);
+  }
+
+  p {
+    color: color(text-light);
+    line-height: 1.6;
+    margin: 0;
+  }
+}
+
+// Section Courses
+.courses {
+  &-grid {
+    @include grid($min-width: 280px, $gap: spacing(xl));
+    margin-top: spacing(2xl);
+  }
+}
+
+.course-category {
+  @extend .card;
+  @extend .card--hover;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: color(primary);
+    @include smooth-transition(width);
+  }
+
+  &:hover::before {
+    width: 8px;
+  }
+
+  h3 {
+    font-size: font-size(2xl);
+    font-weight: font-weight(semibold);
+    margin-bottom: spacing(md);
+    color: color(primary);
+  }
+
+  p {
+    color: color(text-light);
+    margin-bottom: spacing(lg);
+    line-height: 1.6;
+  }
+}
+
+.course-link {
+  @extend .link;
+  display: inline-flex;
+  align-items: center;
+  gap: spacing(sm);
+  font-weight: font-weight(semibold);
+
+  &::after {
+    content: '→';
+    @include smooth-transition(transform);
+  }
+
+  &:hover::after {
+    transform: translateX(4px);
+  }
+}
+
+// Section About
+.about {
+  &-content {
+    display: grid;
+    gap: spacing(3xl);
+    align-items: center;
+
+    @include respond-to(tablet) {
+      grid-template-columns: 1fr;
+      gap: spacing(2xl);
+    }
+  }
+
+  &-text {
+    h2 {
+      text-align: left;
+      margin-bottom: spacing(xl);
+      font-size: font-size(4xl);
+
+      @include respond-to(mobile) {
+        text-align: center;
+        font-size: font-size(3xl);
+      }
+    }
+
+    p {
+      font-size: font-size(lg);
+      margin-bottom: spacing(lg);
+      color: color(text-light);
+      line-height: 1.7;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  &-stats {
+    display: flex;
+    flex-direction: row;
+    gap: spacing(xl);
+
+    @include respond-to(tablet) {
+      flex-direction: row;
+      justify-content: space-around;
+    }
+
+    @include respond-to(mobile) {
+      flex-direction: column;
+    }
+  }
+}
+
+.stat {
+  @extend .card;
+  @extend .card--centered;
+  padding: spacing(lg);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, color(primary), color(secondary));
+  }
+
+  strong {
+    display: block;
+    font-size: font-size(4xl);
+    font-weight: font-weight(extrabold);
+    color: color(primary);
+    margin-bottom: spacing(sm);
+    line-height: 1;
+  }
+
+  span {
+    color: color(text-light);
+    font-weight: font-weight(medium);
+    font-size: font-size(base);
+  }
+}
+
+// Section Contact
+.contact {
+  @extend .section--primary;
+  text-align: center;
+
+  &-description {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: font-size(lg);
+  }
+
+  &-actions {
+    margin-top: spacing(xl);
+  }
+
+  &-info {
+    margin-top: spacing(lg);
+    color: rgba(255, 255, 255, 0.8);
+
+    a {
+      color: white;
+      text-decoration: underline;
+      @include smooth-transition(opacity);
+
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+  }
+}

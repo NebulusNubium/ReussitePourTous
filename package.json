@@ -1,0 +1,26 @@
+{
+  "name": "reussite-pour-tous",
+  "version": "1.0.0",
+  "description": "Site web d'enseignement - Réussite Pour Tous",
+  "main": "index.html",
+  "scripts": {
+    "build-css": "sass assets/scss/main.scss:assets/css/main.css --style=compressed --no-source-map",
+    "watch-css": "sass assets/scss/main.scss:assets/css/main.css --watch --style=expanded --source-map",
+    "watch": "npm run watch-css",
+    "build": "npm run build-css",
+    "dev": "npm run watch-css"
+  },
+  "keywords": [
+    "education",
+    "teaching",
+    "learning",
+    "sass",
+    "css"
+  ],
+  "author": "Réussite Pour Tous",
+  "license": "MIT",
+  "devDependencies": {
+    "sass": "^1.69.0"
+  }
+}
+

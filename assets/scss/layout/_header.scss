@@ -1,0 +1,196 @@
+// Header et navigation
+
+.site-header {
+  background: white;
+  box-shadow: shadow(base);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: z-index(header);
+  height: $header-height;
+}
+
+.nav-container {
+  @include container;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+}
+
+// Logo
+.logo {
+  h1 {
+    font-size: font-size(xl);
+    font-weight: font-weight(bold);
+    color: color(primary);
+    margin: 0;
+  }
+
+  a {
+    text-decoration: none;
+    @include smooth-transition(color);
+
+    &:hover {
+      color: darken(color(primary), 10%);
+    }
+  }
+}
+
+// Navigation principale
+.nav-menu {
+  display: flex;
+  list-style: none;
+  gap: spacing(xl);
+  align-items: center;
+  margin: 0;
+
+  @include respond-to(tablet) {
+    display: none;
+
+    &.is-open {
+      display: flex;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: white;
+      flex-direction: column;
+      padding: spacing(lg);
+      box-shadow: shadow(lg);
+      gap: spacing(md);
+    }
+  }
+
+  li {
+    margin: 0;
+  }
+
+  a {
+    text-decoration: none;
+    color: color(text);
+    font-weight: font-weight(medium);
+    @include smooth-transition(color);
+    padding: spacing(sm) 0;
+    position: relative;
+
+    &:hover {
+      color: color(primary);
+    }
+
+    // Effet de soulignement au hover
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: color(primary);
+      @include smooth-transition(width);
+    }
+
+    &:hover::after {
+      width: 100%;
+    }
+  }
+}
+
+// Bouton de connexion dans la navigation
+.btn-login {
+  @include button-base;
+  @include button-variant(color(primary));
+  padding: spacing(sm) spacing(md);
+  border-radius: $border-radius;
+  font-size: font-size(sm);
+
+  &:hover {
+    color: white !important;
+  }
+
+  // Pas d'effet de soulignement pour le bouton
+  &::after {
+    display: none;
+  }
+}
+
+// Menu mobile toggle
+.mobile-menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  flex-direction: column;
+  gap: 4px;
+  cursor: pointer;
+  padding: spacing(sm);
+  width: 40px;
+  height: 40px;
+  justify-content: center;
+  align-items: center;
+  border-radius: $border-radius;
+  @include smooth-transition(background-color);
+
+  @include respond-to(tablet) {
+    display: flex;
+  }
+
+  &:hover {
+    background-color: color(bg-light);
+  }
+
+  span {
+    width: 25px;
+    height: 3px;
+    background: color(text);
+    @include smooth-transition(transform);
+    border-radius: 2px;
+
+    &:first-child {
+      transform-origin: top left;
+    }
+
+    &:last-child {
+      transform-origin: bottom left;
+    }
+  }
+
+  // Animation du hamburger en X
+  &.is-open {
+    span {
+      &:first-child {
+        transform: rotate(45deg) translate(2px, -2px);
+      }
+
+      &:nth-child(2) {
+        opacity: 0;
+        transform: translateX(-10px);
+      }
+
+      &:last-child {
+        transform: rotate(-45deg) translate(2px, 2px);
+      }
+    }
+  }
+
+  // Accessibilité
+  &[aria-expanded="true"] {
+    .sr-only {
+      @include visually-hidden;
+    }
+  }
+}
+
+// Animation d'apparition du menu mobile
+@include respond-to(tablet) {
+  .nav-menu {
+    opacity: 0;
+    transform: translateY(-10px);
+    @include smooth-transition(opacity transform);
+
+    &.is-open {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}

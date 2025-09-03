@@ -1,0 +1,167 @@
+// Mixins pour les media queries responsive
+@mixin respond-to($breakpoint) {
+  @media (max-width: breakpoint($breakpoint)) {
+    @content;
+  }
+}
+
+@mixin respond-from($breakpoint) {
+  @media (min-width: breakpoint($breakpoint)) {
+    @content;
+  }
+}
+
+@mixin respond-between($min, $max) {
+  @media (min-width: breakpoint($min)) and (max-width: breakpoint($max)) {
+    @content;
+  }
+}
+
+// Mixin pour les boutons
+@mixin button-base {
+  display: inline-block;
+  padding: spacing(sm) spacing(lg);
+  border-radius: $border-radius;
+  text-decoration: none;
+  font-weight: font-weight(semibold);
+  text-align: center;
+  transition: transition(base);
+  border: none;
+  cursor: pointer;
+  font-family: font(primary);
+
+  &:focus {
+    outline: 2px solid color(primary);
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+@mixin button-variant($bg-color, $text-color: white, $hover-bg: null) {
+  background-color: $bg-color;
+  color: $text-color;
+
+  @if $hover-bg {
+    &:hover:not(:disabled) {
+      background-color: $hover-bg;
+      transform: translateY(-2px);
+    }
+  } @else {
+    &:hover:not(:disabled) {
+      background-color: darken($bg-color, 10%);
+      transform: translateY(-2px);
+    }
+  }
+}
+
+// Mixin pour les ombres de cartes
+@mixin card-shadow($level: base) {
+  box-shadow: shadow($level);
+  transition: transform transition(base), box-shadow transition(base);
+
+  &:hover {
+    @if $level == base {
+      box-shadow: shadow(lg);
+    } @else if $level == lg {
+      box-shadow: shadow(xl);
+    }
+    transform: translateY(-2px);
+  }
+}
+
+// Mixin pour les conteneurs
+@mixin container {
+  max-width: $container-max-width;
+  margin: 0 auto;
+  padding: 0 spacing(md);
+
+  @include respond-to(mobile) {
+    padding: 0 spacing(sm);
+  }
+}
+
+// Mixin pour centrer un élément
+@mixin center($horizontal: true, $vertical: true) {
+  position: absolute;
+
+  @if ($horizontal and $vertical) {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  } @else if ($horizontal) {
+    left: 50%;
+    transform: translate(-50%, 0);
+  } @else if ($vertical) {
+    top: 50%;
+    transform: translate(0, -50%);
+  }
+}
+
+// Mixin pour les grilles flexibles
+@mixin grid($columns: 1, $gap: spacing(md), $min-width: 250px) {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax($min-width, 1fr));
+  gap: $gap;
+
+  @include respond-to(mobile) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// Mixin pour masquer du texte (accessibilité)
+@mixin visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+// Mixin pour le truncate text
+@mixin text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// Mixin pour les transitions fluides
+@mixin smooth-transition($properties: all, $duration: transition(base)) {
+  transition: $properties $duration;
+}
+
+// Mixin pour les transitions multiples
+@mixin smooth-transition-multiple($transitions...) {
+  transition: $transitions;
+}
+
+// Mixin pour les gradients
+@mixin gradient($start-color, $end-color, $direction: 135deg) {
+  background: linear-gradient($direction, $start-color 0%, $end-color 100%);
+}
+
+// Mixin pour les aspects ratio
+@mixin aspect-ratio($width, $height) {
+  position: relative;
+
+  &::before {
+    content: '';
+    display: block;
+    padding-top: ($height / $width) * 100%;
+  }
+
+  > * {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
