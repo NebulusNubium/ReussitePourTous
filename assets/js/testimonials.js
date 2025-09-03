@@ -132,26 +132,32 @@ class TestimonialsStreamJS {
             this.handleResize();
         });
 
-        // Pause when page is not visible
+        // Pause when page is not visible - but only if completely hidden
         document.addEventListener('visibilitychange', () => {
             if (document.hidden) {
                 this.pauseAnimation();
-            } else {
+            } else if (!this.stream.matches(':hover')) {
+                // Only resume if not hovering
                 this.resumeAnimation();
             }
         });
 
-        // Intersection Observer for performance
+        // Intersection Observer for performance - made less aggressive
         if ('IntersectionObserver' in window) {
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
-                    if (entry.isIntersecting) {
+                    // Only pause if completely out of view
+                    if (entry.intersectionRatio > 0) {
                         this.resumeAnimation();
                     } else {
+                        // Only pause if completely invisible
                         this.pauseAnimation();
                     }
                 });
-            }, { threshold: 0.1 });
+            }, {
+                threshold: [0, 0.1], // Multiple thresholds
+                rootMargin: '50px' // Add margin to be less aggressive
+            });
 
             observer.observe(this.stream);
         }
