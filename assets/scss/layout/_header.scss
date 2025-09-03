@@ -1,14 +1,13 @@
 // Header et navigation
 
 .site-header {
-  background: white;
+  background: rgba(255, 255, 255, 0.575);
   box-shadow: shadow(base);
   position: fixed;
-  top: 0;
+  top: 2%;
   left: 0;
   right: 0;
   z-index: z-index(header);
-  height: $header-height;
 }
 
 .nav-container {
@@ -16,7 +15,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 100%;
+  height: 60px;
 }
 
 // Logo
@@ -72,7 +71,7 @@
     color: color(text);
     font-weight: font-weight(medium);
     @include smooth-transition(color);
-    padding: spacing(sm) 0;
+    padding: spacing(sm) spacing(sm);
     position: relative;
 
     &:hover {
@@ -97,7 +96,6 @@
   }
 }
 
-// Bouton de connexion dans la navigation
 .btn-login {
   @include button-base;
   @include button-variant(color(primary));
