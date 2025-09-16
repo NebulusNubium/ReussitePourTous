@@ -1,5 +1,10 @@
 <?php
 session_start();
+require_once 'vendor/autoload.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 
 // Generate CSRF token if not exists
 if (empty($_SESSION['csrf_token'])) {
@@ -26,18 +31,78 @@ if ($_POST) {
         } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $error = 'Adresse email invalide.';
         } else {
-            // Here you would typically send the email or save to database
-            // For now, we'll just show a success message
-            $message = 'Votre message a été envoyé avec succès ! Je vous répondrai dans les plus brefs délais.';
+            // Send email using PHPMailer
+            $mail = new PHPMailer(true);
 
-            // Optional: Send email (requires proper mail configuration)
-            /*
-            $to = 'martial.knopfer@email.fr';
-            $subject = 'Nouveau message de contact: ' . $object;
-            $body = "Nom: $name\nEmail: $email\nObjet: $object\n\nMessage:\n$messageContent";
-            $headers = "From: $email\r\nReply-To: $email\r\n";
-            mail($to, $subject, $body, $headers);
-            */
+            try {
+                // Server settings
+                $mail->isSMTP();
+                $mail->Host       = 'smtp.gmail.com';
+                $mail->SMTPAuth   = true;
+                $mail->Username   = 'noreply.reussitepourtous@gmail.com';
+                $mail->Password   = 'ebul kbsi qyxn luxs';
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+                $mail->Port       = 587;
+                $mail->CharSet    = 'UTF-8';
+
+                // Recipients
+                $mail->setFrom('noreply.reussitepourtous@gmail.com', 'Site Web Martial KNOPFER');
+                $mail->addAddress('martialknopfer@gmail.com', 'Martial KNOPFER');
+                $mail->addReplyTo($email, $name);
+
+                // Content
+                $mail->isHTML(false);
+                $mail->Subject = 'Nouveau message de contact: ' . $object;
+
+                // Create email body with proper formatting
+                $emailBody = "Nouveau message reçu depuis le site web\n";
+                $emailBody .= "=====================================\n\n";
+                $emailBody .= "Nom: " . $name . "\n";
+                $emailBody .= "Email: " . $email . "\n";
+                $emailBody .= "Objet: " . $object . "\n";
+                $emailBody .= "Date: " . date('d/m/Y à H:i:s') . "\n\n";
+                $emailBody .= "Message:\n";
+                $emailBody .= "--------\n";
+                $emailBody .= $messageContent . "\n\n";
+                $emailBody .= "=====================================\n";
+                $emailBody .= "Ce message a été envoyé depuis le formulaire de contact du site web de Martial KNOPFER.";
+
+                $mail->Body = $emailBody;
+
+                $mail->send();
+
+                // AUSSI sauvegarder en local comme backup
+                $logMessage = "=== NOUVEAU MESSAGE (ENVOYÉ) ===\n";
+                $logMessage .= "Date: " . date('d/m/Y à H:i:s') . "\n";
+                $logMessage .= "Nom: " . $name . "\n";
+                $logMessage .= "Email: " . $email . "\n";
+                $logMessage .= "Objet: " . $object . "\n";
+                $logMessage .= "Message: " . $messageContent . "\n";
+                $logMessage .= "Status: EMAIL ENVOYÉ AVEC SUCCÈS\n";
+                $logMessage .= "================================\n\n";
+
+                $logFile = 'messages_contact.txt';
+                file_put_contents($logFile, $logMessage, FILE_APPEND | LOCK_EX);
+
+                $message = 'Votre message a été envoyé avec succès ! Je vous répondrai dans les plus brefs délais.';
+                $_POST = array();
+
+            } catch (Exception $e) {
+                // En cas d'erreur d'envoi, sauvegarder quand même le message
+                $logMessage = "=== NOUVEAU MESSAGE (ERREUR EMAIL) ===\n";
+                $logMessage .= "Date: " . date('d/m/Y à H:i:s') . "\n";
+                $logMessage .= "Nom: " . $name . "\n";
+                $logMessage .= "Email: " . $email . "\n";
+                $logMessage .= "Objet: " . $object . "\n";
+                $logMessage .= "Message: " . $messageContent . "\n";
+                $logMessage .= "Erreur: " . $mail->ErrorInfo . "\n";
+                $logMessage .= "=====================================\n\n";
+
+                $logFile = 'messages_contact.txt';
+                file_put_contents($logFile, $logMessage, FILE_APPEND | LOCK_EX);
+
+                $error = "Une erreur s'est produite lors de l'envoi du message. Cependant, votre message a été sauvegardé et je le recevrai. Erreur: {$mail->ErrorInfo}";
+            }
         }
     }
 }

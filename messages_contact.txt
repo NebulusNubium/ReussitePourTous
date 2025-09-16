@@ -1,0 +1,35 @@
+=== NOUVEAU MESSAGE ===
+Date: 16/09/2025 à 09:44:07
+Nom: toto
+Email: t.knopfer@gmail.com
+Objet: Réservation cours
+Message: salut papa
+========================
+
+=== NOUVEAU MESSAGE (ERREUR EMAIL) ===
+Date: 16/09/2025 à 09:47:14
+Nom: toto
+Email: t.knopfer@gmail.com
+Objet: Réservation cours
+Message: Salut papa
+Erreur: SMTP Error: Could not authenticate.
+=====================================
+
+=== NOUVEAU MESSAGE (ERREUR EMAIL) ===
+Date: 16/09/2025 à 09:49:16
+Nom: toto
+Email: t.knopfer@gmail.com
+Objet: Réservation cours
+Message: Salut ppaa
+Erreur: SMTP Error: Could not authenticate.
+=====================================
+
+=== NOUVEAU MESSAGE (ENVOYÉ) ===
+Date: 16/09/2025 à 09:56:35
+Nom: toto
+Email: t.knopfer@gmail.com
+Objet: Cours maths
+Message: Salut papa
+Status: EMAIL ENVOYÉ AVEC SUCCÈS
+================================
+
