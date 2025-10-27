@@ -19,11 +19,11 @@ if ($_POST) {
     if (!hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'] ?? '')) {
         $error = 'Token de sécurité invalide. Veuillez réessayer.';
     } else {
-        // Sanitize and validate inputs
-        $name = filter_var(trim($_POST['name'] ?? ''), FILTER_SANITIZE_STRING);
+        // Sanitize and validate inputs - Fixed deprecated FILTER_SANITIZE_STRING
+        $name = htmlspecialchars(trim($_POST['name'] ?? ''), ENT_QUOTES, 'UTF-8');
         $email = filter_var(trim($_POST['email'] ?? ''), FILTER_SANITIZE_EMAIL);
-        $object = filter_var(trim($_POST['object'] ?? ''), FILTER_SANITIZE_STRING);
-        $messageContent = filter_var(trim($_POST['message'] ?? ''), FILTER_SANITIZE_STRING);
+        $object = htmlspecialchars(trim($_POST['object'] ?? ''), ENT_QUOTES, 'UTF-8');
+        $messageContent = htmlspecialchars(trim($_POST['message'] ?? ''), ENT_QUOTES, 'UTF-8');
 
         // Validation
         if (empty($name) || empty($email) || empty($object) || empty($messageContent)) {
